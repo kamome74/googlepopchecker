@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+ 
+{% block content %}
+{% if isPost == False %}
+    <script language="javascript">
+        window.onload = setCountdown(false);
+    </script>
+
+    <div class="text-center">
+        <h1 class="display-4">Google Cloud CDN POP Checker</h1>
+    </div>
+
+    <div>
+        <form id="runQuery" method="post">
+            <input type="hidden" id="XCloudTrace" name="XCloudTrace" value="{{ XCloudTrace.split('/')[0] }}">
+        </form>
+    </div>
+    <div class="text-center"><h3>Waiting for log to generate....</h3> </div>
+    <div class="text-center" id="countdownMsg"></div>
+{% elif isFound %}
+    <div class="text-center">
+        <h1 class="display-4">Google Cloud CDN POP Checker</h1>
+        <p>Current POP information is:</p>
+    </div>
+    <div>
+        <p> Session : {{ result["XCloudTrace"] }}</p>
+        <p> Client IP : {{ result["remoteIp"] }}</p>
+        <p> Agent : {{ result["agentId"] }}</p>
+        <p> POP ID : {{ result["cacheId"] }}</p>
+        <p> POP Location : {{ result["popIATA"] }}</p>
+    </div>
+{% else %}
+    <script language="javascript">
+        window.onload = setCountdown(true);
+    </script>
+
+    <div class="text-center">
+        <h1 class="display-4">Google Cloud CDN POP Checker</h1>
+    </div>
+    <div>
+        <form id="runQuery" method="post">
+        <input type="hidden" id="XCloudTrace" name="XCloudTrace" value="{{ XCloudTrace }}">
+        </form>
+    </div>
+    <div class="text-center"><h3>Log is not ready yet....</h3> </div>
+    <div class="text-center" id="countdownMsg"></div>
+    <div class="text-center">Current Session : {{ XCloudTrace }}</div>
+{% endif %}
+{% endblock %}
